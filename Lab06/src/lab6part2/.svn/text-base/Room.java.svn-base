@@ -1,0 +1,15 @@
+package lab6part2;
+
+/**
+ * Title: Room class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - Room
+ *  This class represents a room in a maze game.
+ *
+ * @author Nino & Hosch - this class is from the textbook.
+ * @email  your.n.here@my.uwrf.edu
+ * @date   October 10th 2012
+ */
+
+public class Room {
+
+}

@@ -1,0 +1,19 @@
+package a3start;
+
+import javax.swing.ImageIcon;
+
+public class PlayingCard {
+	private ImageIcon image;
+	
+	public PlayingCard(){
+		image = null;
+	}
+	
+	public PlayingCard(ImageIcon i){
+		image = i;
+	}
+
+	public ImageIcon getImage(){
+		return image;
+	}
+}

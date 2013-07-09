@@ -1,0 +1,71 @@
+package lab6part3;
+
+/**
+ * Title: Rectangle class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - Rectangle
+ *  This class represents a rectangle with integer dimensions.
+ *
+ * @author Nino & Hosch - this class is from the textbook.
+ * @email  your.n.here@my.uwrf.edu
+ * @date   October 10th 2012
+ */
+
+
+public class Rectangle {
+  
+  // Private data members:
+  
+  private int length;
+  private int width;
+  
+  // Constructors:
+  
+  /**
+   * Constructor:
+   * 
+   * Create a new Rectangle with the specified length and width.
+   * Length and width must be non-negative.
+   */
+  public Rectangle (int length, int width) {
+    this.length = length;
+    this.width = width;
+  }
+  
+  // Queries:
+  
+  /**
+   * length:
+   * 
+   * Returns the length of this Rectangle.
+   */
+  public int length () {
+    return length;
+  }
+  
+  /**
+   * width:
+   * 
+   * Returns the width of this Rectangle.
+   */
+  public int width () {
+    return width;
+  }
+    
+  /**
+   * area:
+   * 
+   * Returns the area of this Rectangle.
+   */
+  public int area () {
+    return length * width;
+  }
+  
+  /**
+   * perimeter:
+   * 
+   * Returns the perimeter of this Rectangle.
+   */
+  public int perimeter () {
+    return 2*length + 2*width;
+  }
+}

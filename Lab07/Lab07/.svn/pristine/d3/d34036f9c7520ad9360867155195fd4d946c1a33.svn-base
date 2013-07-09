@@ -1,0 +1,23 @@
+package l7p3;
+/**
+ * Title: TestMain class for CSIS 235 Lab #7
+ * Description: CS 235 Lab #7 - TestMain
+ *              This class has a main method and is the
+ *              client of the CombinationLockTest class.
+ * @author Anthony Varghese
+ * @author 
+ * @email  your.n.here@my.uwrf.edu
+ * @date   October 17 2012
+ */
+
+public class TestMain {
+	/**
+	 * main method - this is where this test program starts.
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		System.out.println("Starting tests of the CombinationLock class ...");
+	    (new CombinationLockTest()).runTest();
+	    System.out.println("... done!");
+	}
+}

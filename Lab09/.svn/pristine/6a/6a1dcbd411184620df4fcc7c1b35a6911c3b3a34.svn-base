@@ -1,0 +1,62 @@
+package shapes;
+
+/**
+ * Title: Rectangle class for CSIS 235 Lab #8 Description: CS 235 Lab #8 -
+ * Rectangle This class is used to represent a rectangle with integer
+ * dimensions.
+ * 
+ * @author Anthony Varghese
+ * @author
+ * @email your.n.here@my.uwrf.edu
+ * @date October 17th 2012
+ */
+
+public class Rectangle extends Shape implements AreaAndPerimeter {
+
+	/**
+	 * Data members and class invariants
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	
+	// Private components:
+	private int width;
+	private int height;
+
+	// Constructor:
+
+	/**
+	 * Create a new rectangle with the specified position and dimensions. The
+	 * sizes must be non-negative.
+	 */
+	public Rectangle(int x, int y, int w, int h) {
+		super(x, y);
+		width = w;
+		height = h;
+	}
+
+	// Queries:
+
+	/**
+	 * The length of this rectangle.
+	 */
+	public int width() {
+		return width;
+	}
+
+	/**
+	 * The width of this rectangle.
+	 */
+	public int height() {
+		return height;
+	}
+
+	public int area() {
+		return width * height;
+	}
+
+	public int perimeter() {
+		return 2*(width + height);
+	}
+}

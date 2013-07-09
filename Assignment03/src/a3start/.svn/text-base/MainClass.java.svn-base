@@ -1,0 +1,151 @@
+package a3start;
+
+/**
+ * <p>Title: Starter code for Assignment #3</p>
+ * <p>Description: Shows how to get started with displaying card images.</p>
+ * <p>Copyright: Copyright (c) 2003-2013</p>
+ * <p>Company: UWRF</p>
+ * @author Anthony Varghese
+ * @version 4.0
+ */
+
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
+public class MainClass extends JFrame implements MouseListener {
+
+	private Hand hand1,
+				 hand2;
+	private final int FRAME_X = 100;
+	private final int FRAME_Y = 100;
+	private final int FRAME_WIDTH  = 400;
+	private final int FRAME_HEIGHT = 300;
+	private final int HAND1_X = 30;
+	private final int HAND1_Y = 30;
+	private final int HAND2_X = 30;
+	private final int HAND2_Y = 130;
+
+	/*
+	 * Location of card images and file name properties
+	 */
+	final String imagedirectory = "src/CardImages/";
+	final String suffix    = ".jpg";
+	final char CLUBS       = 'a';
+	final char DIAMONDS    = 'b';
+	final char HEARTS      = 'c';
+	final char SPADES      = 'd';
+	final int  STARTNUMBER = 1;  // Ace
+	final int  ENDNUMBER   = 13; // King
+	
+	public MainClass(){
+		setBounds( FRAME_X, FRAME_Y, FRAME_WIDTH, FRAME_HEIGHT );
+		
+		getImagesFromFiles();
+
+		addMouseListener( this );
+		setDefaultCloseOperation( EXIT_ON_CLOSE );
+		setVisible(true);
+	}
+	
+	public void paint(Graphics graphics) {
+		super.paint( graphics );
+		/*
+		 * Draw the first hand
+		 */
+		for (int i = 0; i < hand1.size(); i++) {
+			PlayingCard c = hand1.getCard(i);
+			if (c == null) continue;
+			ImageIcon ic = c.getImage();
+			if (ic == null) continue;
+			int w = ic.getIconWidth();
+			ic.paintIcon(this, graphics, hand1.getStartX() + i*w/2, hand1.getStartY() );
+		}
+		
+		/*
+		 * Draw the second hand
+		 */
+		for (int i = 0; i < hand2.size(); i++) {
+			PlayingCard c = hand2.getCard(i);
+			if (c == null) continue;
+			ImageIcon ic = c.getImage();
+			if (ic == null) continue;
+			int w = ic.getIconWidth();
+			ic.paintIcon(this, graphics, hand2.getStartX() + i*w/2, hand2.getStartY() );
+		}
+	}
+	
+	private void getImagesFromFiles(){
+		PlayingCard[] deck = new PlayingCard[52];
+
+		int cardID = 0;
+		for (char c=CLUBS; c<=SPADES; c++){
+			for (int num=1; num<14; num++){
+				String card = ( (num < 10) ? "0" : "" ) + num + c;
+				
+				String filename = imagedirectory + card + suffix;
+				ImageIcon im = new ImageIcon( filename );
+				deck[cardID] = new PlayingCard( im );
+				cardID++;
+			}
+		}
+
+		/*
+		 * Move cards randomly from the deck into hands
+		 */
+		hand1 = new Hand( HAND1_X, HAND1_Y );
+		for (int i=0; i<5; i++){
+			int j = 0;
+			do{  j = randomIndex();  } while (deck[j]==null);
+			hand1.addCard(deck[j]);
+			deck[j] = null;
+		}
+		
+		hand2 = new Hand( HAND2_X, HAND2_Y );
+		for (int i=5; i<10; i++){
+			int j = 0;
+			do{  j = randomIndex();  } while (deck[j]==null);
+			hand2.addCard(deck[j]);
+			deck[j] = null;
+		}
+		repaint();
+	}
+
+	private int randomIndex() {
+		int index = (int)( Math.random() * 52 );
+		return index;
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		boolean hand1Clicked = false;
+		boolean hand2Clicked = false;
+		// check where the mouse was clicked
+		if ( e.getY() > HAND1_Y && e.getY() < HAND2_Y )
+			hand1Clicked = true;
+		if ( e.getY() > HAND2_Y )
+			hand2Clicked = true;
+		
+		if ( hand1Clicked )
+			hand2.addCard( hand1.removeCard() );
+
+		if ( hand2Clicked )
+			hand1.addCard( hand2.removeCard() );
+		
+		repaint();
+	}
+
+	public void mousePressed(MouseEvent e) { }
+	public void mouseReleased(MouseEvent e) { }
+	public void mouseEntered(MouseEvent e) { }
+	public void mouseExited(MouseEvent e) {	}
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		new MainClass();
+	}
+}

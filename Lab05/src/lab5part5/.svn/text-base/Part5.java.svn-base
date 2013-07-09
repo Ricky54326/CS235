@@ -1,0 +1,97 @@
+package lab5part5;
+
+/**
+ * Title: Part5 class for CSIS 235 Lab #5
+ * Description: CS 235 Lab #5 - Part 5
+ *              This class has a main method that is used to
+ *              try out the Account, CheckingAccount, and
+ *              SavingsAccount classes.
+ * @author Anthony Varghese
+ * @email  your.n.here@my.uwrf.edu
+ * @date   October 5th 2012
+ */
+
+public class Part5 {
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		final int NUMBER_OF_ACCOUNTS = 6;
+		Account[] starting = new Account[ NUMBER_OF_ACCOUNTS ];
+		starting[0] = new CheckingAccount("John Hunchar" ,	500 );
+		starting[1] = new SavingsAccount ("Shirin Asadi" ,	750 );
+		starting[2] = new CheckingAccount("Eric Brown"   ,	325 );
+		starting[3] = new SavingsAccount ("Noah Muth"    ,	600 );
+		starting[4] = new CheckingAccount("Jessica Wilson",	242 );
+		starting[5] = new SavingsAccount ("Dylan Robey",	521 );
+		
+		System.out.println("Starting balances");
+		for (Account x : starting)
+			System.out.println( "  Account - " + x );
+
+		/*
+		 * Make a copy of the starting accounts and apply transactions to it.
+		 */
+		Account[] temp = new Account[ starting.length ];
+		for (int i=0; i<starting.length; i++){
+			if (starting[i] instanceof CheckingAccount){
+				temp[i] = new CheckingAccount( starting[i].getName(), starting[i].currentBalance() );
+			} else if (starting[i] instanceof SavingsAccount){
+				temp[i] = new SavingsAccount( starting[i].getName(), starting[i].currentBalance() );
+			}
+		}
+		
+		/*
+		 * Transactions for the first month
+		 */
+		float transfer1 = 50;
+		temp[1].withdraw( transfer1 );
+		temp[0].deposit( transfer1);
+		
+		float transfer2 = 100;
+		temp[2].withdraw( transfer2 );
+		temp[3].deposit( transfer2 );
+
+		float transfer3 = 42;
+		temp[4].withdraw( transfer3 );
+		temp[5].deposit( transfer3 );
+
+		/*
+		 * Make a copy of the starting accounts and apply transactions to it.
+		 */
+		Account[] month1 = new Account[ starting.length ];
+		for (int i=0; i<temp.length; i++){
+			if (temp[i] instanceof CheckingAccount){
+				month1[i] = new CheckingAccount( temp[i].getName(), temp[i].currentBalance() );
+			} else if (temp[i] instanceof SavingsAccount){
+				month1[i] = new SavingsAccount( temp[i].getName(), temp[i].currentBalance() );
+			}
+		}
+
+		System.out.println();
+		System.out.println("Ending balances for month 1");
+		for (Account x : month1)
+			System.out.println( "  Account - " + x );
+
+		/*
+		 * Transactions for the second month
+		 */
+		float transfer4 = 35;
+		temp[0].withdraw( transfer4 );
+		temp[1].deposit( transfer4 );
+		
+		float transfer5 = 50;
+		temp[3].withdraw( transfer5 );
+		temp[2].deposit( transfer5 );
+
+		float transfer6 = 24;
+		temp[5].withdraw( transfer6 );
+		temp[4].deposit( transfer6 );
+
+		System.out.println();
+		System.out.println("Ending balances for month 2");
+		for (Account x : temp)
+			System.out.println( "  Account - " + x );
+
+	}
+}

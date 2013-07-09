@@ -1,0 +1,19 @@
+package shapes;
+
+import java.awt.Graphics;
+
+public class DrawableRectangle extends Rectangle implements Drawable{
+	/**
+	 * Data members and class invariants
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public DrawableRectangle(int x, int y, int w, int h){
+		super( x, y, w, h);
+	}
+
+	public void draw(Graphics g) {
+		g.drawRect(getX_position(), getY_position(), width(), height() );
+	}
+}

@@ -1,0 +1,30 @@
+package lab6part2;
+
+/**
+ * Title: Part2 class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - Part2
+ * 				This class has a main method and is the client of
+ * 				 the Denizen, Explorer and Room classes.
+ * 
+ * @author 
+ * @email your.n.here@my.uwrf.edu
+ * @date October 10th 2012
+ */
+
+public class Part2 {
+
+	/**
+	 * main - this is where the Part2 program starts
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Denizen dragon = new Denizen();
+		Room attic = new Room();
+		Room kitchen = new Room();
+		Explorer dora = new Explorer("Dora", attic, 10, 2);
+
+		dora.poke(dragon);
+		dora.move(kitchen);
+	}
+}

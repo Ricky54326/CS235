@@ -1,0 +1,24 @@
+package lab6part4;
+
+/**
+ * Title: TrafficSignalTestClient class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - TrafficSignalTestClient 
+ * 				This class has a main method and is the client
+ * 				 of TrafficSignalTest and TrafficSignal classes.
+ * 
+ * @author Nino & Hosch - this class is from the textbook.
+ * @email your.n.here@my.uwrf.edu
+ * @date October 10th 2012
+ */
+
+public class TrafficSignalTestClient {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+	    TrafficSignalTest test;
+	    test = new TrafficSignalTest();
+	    test.runTest();
+	}
+}

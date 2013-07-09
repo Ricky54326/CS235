@@ -1,0 +1,272 @@
+package lab4p3;
+/**
+ * Title: Part3 class for CSIS 235 Lab 4
+ * Description: CS 235 Lab #4 - Part 3
+ *              GUI program used to look at bank accounts.
+ *              This is the main class - a client of the Account class
+ *              
+ * @author Anthony Varghese
+ * @email  anthony.varghese@uwrf.edu
+ * @date   February 6th 2012
+ */
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.Scanner;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+
+public class Part3 extends JFrame implements ActionListener {
+
+	/**
+	 * Data members
+	 * serialVersionUID is for serialization - ignore this for now.
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Position and size of the window frame
+	private static final int FRAME_TOP_LEFT_X = 200; // pixels from left edge of screen
+	private static final int FRAME_TOP_LEFT_Y = 200; // pixels from top edge of screen
+	private static final int FRAME_WIDTH  = 400;     // pixels wide
+	private static final int FRAME_HEIGHT = 300;	 // pixels high
+
+	private JLabel text; // Tells user what to do
+	private String DESCRIPTION = "Select an account:";
+	// Position and size of the description label
+	private static final int LABEL_TOP_LEFT_X = 30; // pixels from left edge of window
+	private static final int LABEL_TOP_LEFT_Y = 0; // pixels from top edge of window
+	private static final int LABEL_WIDTH = FRAME_WIDTH - 2*30; // pixels wide
+	private static final int LABEL_HEIGHT = 30;   // pixels high
+
+	private JComboBox nameChooser; // allows user to select accounts by name
+	// Position and size of ComboBox
+	private static final int COMBOBOX_TOP_LEFT_X = LABEL_TOP_LEFT_X;  // as before, all pixels
+	private static final int COMBOBOX_TOP_LEFT_Y = LABEL_TOP_LEFT_Y + LABEL_HEIGHT + 10;
+	private static final int COMBOBOX_WIDTH = (int)(FRAME_WIDTH * 0.4);
+	private static final int COMBOBOX_HEIGHT = 30;
+
+	private JLabel accountText; // Displays information about an account
+	// Position and size of the  label
+	private static final int ACCOUNT_TOP_LEFT_X = LABEL_TOP_LEFT_X; // pixels from left edge of window
+	private static final int ACCOUNT_TOP_LEFT_Y = COMBOBOX_TOP_LEFT_Y + COMBOBOX_HEIGHT + 10; // pixels from top edge of window
+	private static final int ACCOUNT_WIDTH = FRAME_WIDTH - 2*30; // pixels wide
+	private static final int ACCOUNT_HEIGHT = 30;   // pixels high
+
+	private JButton deleteButton; // Allows us to delete an account from the list
+	// Position and size of the delete button
+	private static final int BUTTON_TOP_LEFT_X = LABEL_TOP_LEFT_X; // pixels from left edge of window
+	private static final int BUTTON_TOP_LEFT_Y = ACCOUNT_TOP_LEFT_Y + ACCOUNT_HEIGHT + 10; // pixels from top edge of window
+	private static final int BUTTON_WIDTH = COMBOBOX_WIDTH; // pixels wide
+	private static final int BUTTON_HEIGHT = 40;   // pixels high
+
+	private JLabel averageText; // Displays information about the average balance.
+	private static final int AVERAGE_TOP_LEFT_X = LABEL_TOP_LEFT_X; // pixels from left edge of window
+	private static final int AVERAGE_TOP_LEFT_Y = BUTTON_TOP_LEFT_Y + BUTTON_HEIGHT + 10; // pixels from top edge of window
+	private static final int AVERAGE_WIDTH = FRAME_WIDTH - 2*30; // pixels wide
+	private static final int AVERAGE_HEIGHT = 30;   // pixels high
+	
+	/**
+	 * Constructor
+	 *   - default constructor
+	 */
+	public Part3() {
+		super();
+		setUpWindow();
+	}
+
+	/**
+	 * Constructor with String for window title
+	 * @param title
+	 */
+	public Part3(String title) {
+		super(title);
+		setUpWindow();
+	}
+
+	private void setUpWindow(){
+		setBounds( FRAME_TOP_LEFT_X, FRAME_TOP_LEFT_Y, FRAME_WIDTH, FRAME_HEIGHT);
+		// Without the next line, the program is still running even if the window is "closed"
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// We want to position our components - labels and buttons - ourselves. So disable
+		//   any default layout managers that might try to position things
+		setLayout( null );
+		
+		text = new JLabel( DESCRIPTION );
+		text.setBounds(LABEL_TOP_LEFT_X, LABEL_TOP_LEFT_Y, LABEL_WIDTH, LABEL_HEIGHT);
+		add( text );
+		
+		// set up Combo box
+		nameChooser = new JComboBox( last ); // set up Combo box with the array of last names
+		nameChooser.addItem( "Select an account" );
+		nameChooser.setSelectedIndex( last.length );
+		nameChooser.setBounds(COMBOBOX_TOP_LEFT_X, COMBOBOX_TOP_LEFT_Y, COMBOBOX_WIDTH, COMBOBOX_HEIGHT);
+		add( nameChooser );
+		nameChooser.addActionListener( this );
+		
+		// Set up display area
+		accountText = new JLabel( "" );
+		accountText.setBounds(ACCOUNT_TOP_LEFT_X, ACCOUNT_TOP_LEFT_Y, ACCOUNT_WIDTH, ACCOUNT_HEIGHT);
+		add( accountText );
+		
+		deleteButton = new JButton("Delete");
+		deleteButton.setBounds(BUTTON_TOP_LEFT_X, BUTTON_TOP_LEFT_Y, BUTTON_WIDTH, BUTTON_HEIGHT);
+		add( deleteButton );
+		deleteButton.addActionListener( // Anonymous class to delete something from the list
+				new ActionListener(){
+					public void actionPerformed(ActionEvent arg0) {
+						// get the index of the item to delete
+						int index = nameChooser.getSelectedIndex();
+						// for debugging: 
+						//System.out.println(" index is " + index + " item count is " + nameChooser.getItemCount() );
+						last[ index ] = null;
+						first[ index ] = null;
+						id[ index ] = 0;
+						balance[ index ] = 0;
+						nameChooser.removeItemAt( index );
+					}					
+				}
+		);
+		
+		// Label for average information
+		averageText = new JLabel( "" );
+		averageText.setBounds(AVERAGE_TOP_LEFT_X, AVERAGE_TOP_LEFT_Y, AVERAGE_WIDTH, AVERAGE_HEIGHT);
+		add( averageText );
+		float av = computeAverage();
+		averageText.setText( "Average Balance is " + Float.toString( av ) );
+		
+	}
+	
+	/**
+	 * computeAverage
+	 * - calculates the average of all the elements in the balance array.
+	 * @return
+	 */
+	private float computeAverage() {
+		float sum = 0;
+		for (float x : balance)
+			sum += x;
+		return sum/balance.length;
+	}
+
+	/**
+	 * actionPerformed - this method is used to respond to ComboBox selections
+	 */
+	public void actionPerformed(ActionEvent arg0) {
+		int n = nameChooser.getSelectedIndex();
+		displayItem( n );
+	}
+
+	private void displayItem( int index ){
+		accountText.setText( last[index] + first[index] + id[index] + balance[index] );
+	}
+	/*
+	 * More data members
+	 *  The static String named "filename" is used to hold the name of
+	 *   the file that we will read from.
+	 *       ** Note that when using Eclipse this file will be in the
+	 *       ** package folder and not in the Project or src folders.
+	 *       
+	 *  The static PrintStream object named "out" is used for convenience - 
+	 *   it is not really necessary. 
+	 */
+	private final static String folder   = "src/lab4p1/";
+	private final static String infilename = folder + "Accounts.txt";
+	private final static java.io.PrintStream out = System.out;
+
+	/*
+	 * The array data members
+	 */
+	private static final int NUMBER_OF_ACCOUNTS = 20;
+
+	/**
+	 * Set up arrays with enough space to read in data.
+	 */
+	private static int[] id = new int[NUMBER_OF_ACCOUNTS];
+	private static float[] balance = new float[NUMBER_OF_ACCOUNTS];
+	private static String[] first = new String[NUMBER_OF_ACCOUNTS];
+	private static String[] last  = new String[NUMBER_OF_ACCOUNTS];
+
+	/**
+	 * main method - this is where the program starts
+	 * 
+	 * @param args
+	 * @throws Exception  - if there are problems reading the input file
+	 */
+	public static void main(String[] args) throws Exception {
+		out.println( "Reading data from " + infilename + " ...");
+		
+		// Open the named file for reading
+		java.io.FileInputStream fIn = openInputFile( infilename ); 
+		if (fIn == null)
+			throw new Exception("Bad file name!!");
+		Scanner fileReader = new Scanner( fIn );
+
+		/*
+		 * Read the first line of the input file into a single String 
+		 */
+		String header = fileReader.nextLine();
+		
+		/*
+		 * Read all lines of the file
+		 *  - assuming the NUMBER_OF_ACCOUNTS is set correctly
+		 */
+		for (int i=0; i<NUMBER_OF_ACCOUNTS; i++){
+			last[i] = fileReader.next();
+			first[i] = fileReader.next();
+			id[i]    = fileReader.nextInt();
+			balance[i] = fileReader.nextFloat();
+		}
+
+		// for debugging:
+		//		out.println(" ... read " + NUMBER_OF_ACCOUNTS + " lines from input file:\n\n" + header );
+		//		for (int i=0; i<NUMBER_OF_ACCOUNTS; i++)
+		//			out.println( last[i] + first[i] + id[i] + balance[i] );
+
+		closeFile( fIn ); // Once we are done reading, we can close the file
+
+		
+		/*
+		 * Open a window for the accounts.
+		 * 
+		 */
+		Part3 window = new Part3( "Bank accounts" );
+		window.setVisible( true );
+	}
+
+	
+	/**
+	 * openFile - a method that opens a file for reading.
+	 * 
+	 * @param fname - name of the input file
+	 */
+	private static java.io.FileInputStream openInputFile(String fname) {
+		java.io.FileInputStream fIn = null;
+		try {
+			fIn = new java.io.FileInputStream( fname );
+		} catch(java.io.FileNotFoundException fex){
+			System.err.println(" Error! This program is trying to open " + fname + " but it does not exist! Or it's some place else.");
+		}
+		return fIn;
+	}
+
+	/**
+	 * closeFile - a method that closes a file 
+	 *    that was previously opened for reading
+	 *    or writing.
+	 * 
+	 * @param fs - an open FileInputStream or FileOutputStream object
+	 */
+	private static void closeFile(java.io.Closeable fs) {
+		if (fs == null)
+			return; // nothing to close
+		try {
+			fs.close();
+		} catch (IOException e) {
+			System.err.println(" Error! This program is trying to close a file but something went wrong.");
+		}
+	}
+}

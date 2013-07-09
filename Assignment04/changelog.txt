@@ -1,0 +1,12 @@
+To do:
+-Fix Sort so that the smallest objects are displayed above the larger ones, and have
+	first priority when being clicked on
+
+Triangle
+MovableTriangle
+FilledTriangle
+MovableFilledTriangle
+Hexagon
+MHexagon
+FHexagon
+MFHexagon

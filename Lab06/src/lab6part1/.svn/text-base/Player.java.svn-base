@@ -1,0 +1,64 @@
+package lab6part1;
+
+/**
+ * Title: Pile class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - Pile 
+ *     This class represents a pile of sticks for playing simple nim.
+ * 
+ * @author Nino & Hosch - this class is from the textbook.
+ * @email your.n.here@my.uwrf.edu
+ * @date October 10th 2012
+ */
+
+public class Player {
+	// Private data members: ----------------------------------------------------
+	private String name; // this Player's name
+	private int sticksTaken; // sticks taken on this Player's most recent
+								// turn; 0 if this Player has not taken a turn.
+
+	// Constructors: ------------------------------------------------------------
+
+	/**
+	 * Constructor
+	 * 
+	 * Create a new Player with the specified name.
+	 */
+	public Player(String name) {
+		this.name = name;
+		this.sticksTaken = 0;
+	}
+
+	// Queries: -----------------------------------------------------------------
+
+	/**
+	 * name:
+	 * 
+	 * The name of this Player.
+	 */
+	public String name() {
+		return name;
+	}
+
+	/**
+	 * sticksTaken:
+	 * 
+	 * The number of sticks this Player removed on this Player's most recent
+	 * turn: 1, 2, or 3. Returns 0 if this Player has not yet taken a turn.
+	 */
+	public int sticksTaken() {
+		return sticksTaken;
+	}
+
+	// Commands: ----------------------------------------------------------------
+
+	/**
+	 * remove:
+	 * 
+	 * Remove 1, 2, or 3 sticks from the specified Pile. The Pile must not be
+	 * empty.
+	 */
+	public void takeTurn(Pile pile) {
+		pile.remove(1);
+		sticksTaken = 1;
+	}
+}

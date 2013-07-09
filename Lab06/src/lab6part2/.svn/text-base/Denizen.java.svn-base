@@ -1,0 +1,17 @@
+package lab6part2;
+
+/**
+ * Title: Denizen class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - Denizen
+ *  This class represents a creature that lives in a maze.
+ *
+ * @author Nino & Hosch - this class is from the textbook.
+ * @email  your.n.here@my.uwrf.edu
+ * @date   October 10th 2012
+ */
+
+public class Denizen {
+	public void takeThat (int strength) {
+		
+	}
+}

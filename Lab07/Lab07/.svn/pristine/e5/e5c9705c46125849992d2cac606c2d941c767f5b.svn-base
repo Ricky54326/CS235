@@ -1,0 +1,105 @@
+package l7p3;
+
+/**
+ * Test for class CombinationLock.
+/**
+ * Title: CombinationLockTest class for CSIS 235 Lab #7
+ * Description: CS 235 Lab #7 - CombinationLockTest
+ *              This class tests the CombinationLock class.
+ *              
+ * @author Nino & Hosch - this class is from the textbook.
+ * @author 
+ * @email  your.n.here@my.uwrf.edu
+ * @date   October 17th 2012
+ */
+
+public class CombinationLockTest {
+
+	private CombinationLock lock;
+
+	/**
+	 * Constructor - set up a test by setting the data member, lock, to null.
+	 * 
+	 */
+	public CombinationLockTest() {
+		lock = null;
+	}
+
+	/**
+	 * runTest - Run 3 tests.
+	 * 
+	 */
+	public void runTest() {
+		testLock(000); // test lock with minimum combination
+		testLock(123); // test lock with typical combination
+		testLock(999); // test lock with maximum combination
+	}
+
+	/**
+	 * testLock - Test a lock with the specified combination.
+	 * 
+	 */
+	private void testLock(int combination) {
+		lock = new CombinationLock(combination);
+		testInitialState();
+		testClose();
+		testOpen(combination);
+	}
+
+	/**
+	 * testInitialState - Test lock is initially open.
+	 * 
+	 */
+	private void testInitialState() {
+		verify(lock.isOpen(), "initial state");
+	}
+
+	/**
+	 * testClose - Test close operation.
+	 * 
+	 */
+	private void testClose() {
+		lock.close(); // close an open lock
+		verify(!lock.isOpen(), "close opened lock");
+		lock.close(); // close a closed lock
+		verify(!lock.isOpen(), "close closed lock");
+	}
+
+	/**
+	 * testOpen - Test open operation.
+	 * 
+	 */
+	private void testOpen(int combination) {
+		// Close the lock and then try to open it
+		// with the "good" combination - should work.
+		lock.close();
+		lock.open(combination); // open a closed lock
+		verify(lock.isOpen(), "open closed lock");
+		
+		// Opening an open lock should also work
+		lock.open(combination); // open an open lock
+		verify(lock.isOpen(), "open opened lock");
+
+		// generate a bad combination
+		int badCombination = (combination + 1) % 1000;
+		// The lock should be open. Trying to open it
+		// with a bad combination now should not work.
+		lock.open(badCombination); // open lock, bad combination
+		verify(lock.isOpen(), "bad comb, opened lock");
+
+		// Close the lock and then try to open it
+		// with a bad combination - should not work.
+		lock.close();
+		lock.open(badCombination); // closed lock, bad combination
+		verify(!lock.isOpen(), "bad comb, closed lock");
+	}
+
+	/**
+	 * verify - Report the message if the test is false.
+	 * 
+	 */
+	private void verify(boolean test, String message) {
+		if (!test)
+			System.out.println("Verification failed: " + message);
+	}
+}

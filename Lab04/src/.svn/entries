@@ -1,0 +1,49 @@
+10
+
+dir
+20
+http://uwrf-fall2012-csis235.googlecode.com/svn/trunk/Labs/Lab04/src
+http://uwrf-fall2012-csis235.googlecode.com/svn
+
+
+
+2012-09-18T18:57:25.501629Z
+20
+uwrf.csis@gmail.com
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+e104edc2-2bd7-915f-a6a7-f876a28c83f2
+
+lab4p1
+dir
+
+
+
+delete
+
+lab4p2
+dir
+
+
+
+delete
+
+lab4p3
+dir
+
+
+
+delete
+

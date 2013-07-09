@@ -1,0 +1,187 @@
+package lab10p2;
+
+import java.io.IOException;
+
+/**
+ * Title: Part2 and associated classes for CSIS 235 Lab #10
+ * Description: CS 235 Lab #10 - Part2
+ *              This class has a main method that
+ *              uses a number of small classes and a
+ *              few "container" classes that we will "genericize".
+ *              
+ * @author Anthony Varghese 
+ * @author 
+ * @email  your.n.here@my.uwrf.edu
+ * @date   November 17th 2012
+ */
+
+class A{
+	private int data;
+	public A(int data_in){ data = data_in;}
+	public String toString(){ return "[ " + data + " ]";	}
+}
+
+class B{
+	private float data;
+	public B(float data_in){ data = data_in;}
+	public String toString(){ return "[ " + data + " ]";	}
+}
+
+class C{
+	private String data;
+	public C(String data_in){ data = data_in;}
+	public String toString(){ return "[ " + data + " ]";	}
+}
+
+class APair{
+	private A a1, a2;
+	public APair( A a1_in, A a2_in ){ a1 = a1_in; a2 = a2_in; }
+	public String toString(){ return "[ " + a1 + ", " + a2 + " ]";	}
+}
+
+class BPair{
+	private B a1, a2;
+	public BPair( B a1_in, B a2_in ){ a1 = a1_in; a2 = a2_in; }
+	public String toString(){ return "[ " + a1 + ", " + a2 + " ]";	}
+}
+
+class Pair<T>{
+	private T a1, a2;
+	public Pair( T a1_in, T a2_in ){ a1 = a1_in; a2 = a2_in; }
+	public String toString(){ return "[ " + a1 + ", " + a2 + " ]";	}
+}
+
+public class Part2 {
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		runSection1();
+		
+		runSection2();
+		
+		runSection3();
+		
+		runSection4();
+
+		runSection5();
+		
+		runSection6();
+		System.out.println("All done!");
+	}
+
+	private static void runSection1() {
+		final String sec = "Part 2 section 1"; 
+		System.out.println("----------------- " + sec + " --- Group members: " );
+		
+		A object1 = new A( 10 );
+		A object2 = new A( 29 );
+		APair pairOfAObjects = new APair( object1, object2 );
+		
+		System.out.println("  pairOfAObjects has: " + pairOfAObjects );
+		
+		BPair pairOfBObjects = new BPair( new B(2.3f), new B(923.65f) );
+		
+		System.out.println("  pairOfBObjects has: " + pairOfBObjects );
+		printdone( sec );
+	}
+
+	private static void runSection2() {
+		final String sec = "Part 2 section 2"; 
+		System.out.println("----------------- " + sec + " --- Group: " );
+
+		Pair pairOfAObjects = new Pair( new A( 10 ), new A( 29 ) );
+		
+		System.out.println("  pairOfAObjects has: " + pairOfAObjects );
+		
+		Pair pairOfBObjects = new Pair( new B(2.3f), new B(923.65f) );
+		
+		System.out.println("  pairOfBObjects has: " + pairOfBObjects );
+
+		printdone( sec );
+	}
+
+	private static void runSection3() {
+		final String sec = "Part 2 section 3"; 
+		System.out.println("----------------- " + sec + " --- Group: " );
+		
+//		Triple<A> triple1 = new Triple<A>( new A(42), new A(203), new A(192) );
+//		System.out.println("  triple1 has: " + triple1 );
+		
+//		Triple<B> triple2 = 
+
+//		Triple<C> triple3 = new Triple<C>( new C("John"), new C("Paul"), new C("George") );
+		
+		printdone( sec );
+	}
+
+	private static void runSection4() {
+		final String sec = "Part 2 section 4"; 
+		System.out.println("----------------- " + sec + " --- Group: " );
+
+		A a1 = new A( 10 ); System.out.println("   a1 is " + a1 );
+		A a2 = new A( 29 ); System.out.println("   a2 is " + a2 );
+		A a3 = new A( 10 ); System.out.println("   a3 is " + a3 );
+		A a4 = a1;          System.out.println("   a4 is " + a4 );
+		
+		if ( a1 == a2 )	System.out.println("     a1 is the same as a2" );
+		else			System.out.println("     a1 is not the same as a2" );
+
+		if ( a1 == a3 )	System.out.println("     a1 is the same as a3" );
+		else			System.out.println("     a1 is not the same as a3" );
+
+		if ( a1 == a4 )	System.out.println("     a1 is the same as a4" );
+		else			System.out.println("     a1 is not the same as a4" );
+
+		if ( a1.equals( a2 ) )  System.out.println("     a1 equals a2" );
+		else					System.out.println("     a1 does not equal a2" );
+
+		printdone( sec );
+	}
+
+	private static void runSection5() {
+		final String sec = "Part 2 section 5"; 
+		System.out.println("----------------- " + sec + " --- Group: " );
+
+		APair pair1 = new APair( new A( 10 ), new A( 29 ) );
+		System.out.println("  pair1 has: " + pair1 );
+		APair pair2 = new APair( new A( 11 ), new A( 134 ) );
+		System.out.println("  pair2 has: " + pair2 );
+		APair pair3 = new APair( new A( 10 ), new A( 29 ) );
+		System.out.println("  pair3 has: " + pair3 );
+		
+		// Check if pairs are equal using .equals
+
+		printdone( sec );
+	}
+
+	private static void runSection6() {
+		final String sec = "Part 2 section 6"; 
+		System.out.println("----------------- " + sec + " --- Group: " );
+
+		Pair<A> pair1 = new Pair<A>( new A( 10 ), new A( 29 ) );
+		System.out.println("  pair1 has: " + pair1 );
+		Pair<A> pair2 = new Pair<A>( new A( 11 ), new A( 134 ) );
+		System.out.println("  pair2 has: " + pair2 );
+		Pair<A> pair3 = new Pair<A>( new A( 10 ), new A( 29 ) );
+		System.out.println("  pair3 has: " + pair3 );
+		
+		// Check if pairs are equal using .equals
+		if ( pair1.equals( pair2 ) )
+			System.out.println("     pair1 equals pair2" );
+		else
+			System.out.println("     pair1 does not equal pair2" );
+		if ( pair1.equals( pair3 ) )
+			System.out.println("     pair1 equals pair3" );
+		else
+			System.out.println("     pair1 does not equal pair3" );
+
+		printdone( sec );
+	}
+
+	private static void printdone(String section){
+		System.out.println("--- Done with " + section +
+				", hit Enter or Return to continue  -------------------" );
+		try{ System.in.read(); } catch (IOException ioe){}		
+	}
+}

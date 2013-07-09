@@ -1,0 +1,158 @@
+package lab9p2;
+
+/**
+ * <p>Title: RectangleGUI</p>
+ * <p>Description: RectangleGUI
+ *       Shows how to get started with displaying rectangles in a window.</p>
+ * @author Anthony Varghese
+ * @date   October 31st 2012
+ * @version 1.0
+ */
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import shapes.DrawableRectangle;
+import shapes.Shape;
+
+public class RectangleGUI extends JFrame implements ActionListener {
+	/**
+	 * Data members
+	 * serialVersionUID is for serialization 
+	 */
+	private static final long serialVersionUID = 1L;
+	// Position and size of the window frame
+	private static final int FRAME_X_POSITION = 200, FRAME_Y_POSITION = 100,
+							 FRAME_WIDTH = 400, FRAME_HEIGHT = 300;
+
+	private JLabel text; // Tells user what to do
+	private String DESCRIPTION = "Let's draw rectangles.";
+	// Position and size of the description label
+	private static final int LABEL_TOP_LEFT_X = 30, // pixels from left edge of window
+							 LABEL_TOP_LEFT_Y = 0, // pixels from top edge of window
+							 LABEL_WIDTH = FRAME_WIDTH - 2*30, // pixels wide
+							 LABEL_HEIGHT = 30;   // pixels high
+
+	// shape refers to a Shape object
+	private Shape shape;
+
+	// data members for the menu bar
+	private JMenuBar menuBar;
+	private JMenu    fileMenu;
+	private JMenuItem newRectangle,
+					  openFile,
+					  saveFile;
+	
+	// common FileChooser for the open and save dialogs
+	JFileChooser filechooser;
+	
+	/**
+	 * RectangleGUI default constructor
+	 * 
+	 */
+	public RectangleGUI(){
+		super("Graphical User Interface for a Rectangle");
+		setUpWindow();
+	}
+
+	/**
+	 * setUpWindow - add all the doo-dads we need in the window.
+	 * 
+	 */
+	private void setUpWindow() {
+		setBounds( FRAME_X_POSITION, FRAME_Y_POSITION, FRAME_WIDTH, FRAME_HEIGHT);
+		// Without the next line, the program is still running even if the window is "closed"
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// We want to position our components - labels and buttons - ourselves. So disable
+		//   any default layout managers that might try to position things
+		setLayout( null );
+
+		// Set up the menus for this application
+		menuBar = new JMenuBar();
+		fileMenu = new JMenu("File");
+		newRectangle = new JMenuItem("New Rectangle");
+		newRectangle.addActionListener( this );
+		openFile = new JMenuItem("Open ... ");
+		openFile.addActionListener( this );
+		saveFile = new JMenuItem("Save As ...");
+		saveFile.addActionListener( this );
+		
+		fileMenu.add( newRectangle );
+		fileMenu.add( openFile );
+		fileMenu.add( saveFile );
+		menuBar.add( fileMenu );
+		setJMenuBar( menuBar );
+		
+		// Set up a coomon file chooser object for opening and saving files
+		filechooser = new JFileChooser("Open");
+		filechooser.setFileFilter( new FileNameExtensionFilter("Rectangle object files", "objects") );
+		
+		text = new JLabel( DESCRIPTION );
+		text.setBounds(LABEL_TOP_LEFT_X, LABEL_TOP_LEFT_Y, LABEL_WIDTH, LABEL_HEIGHT);
+		add( text );
+		
+	}
+
+	/**
+	 * actionPerformed method for MainClient
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
+	public void actionPerformed(ActionEvent arg0) {
+		Object source = arg0.getSource();
+		
+		if (source == newRectangle){
+			final int x = Shape.random( 0 , FRAME_WIDTH);
+			final int y = Shape.random( LABEL_TOP_LEFT_Y, FRAME_HEIGHT);
+			final int width = Shape.random( 1 , FRAME_WIDTH);
+			final int height  = Shape.random( 1 , FRAME_HEIGHT - (LABEL_TOP_LEFT_Y) );
+
+			shape = new DrawableRectangle( x, y, width, height );
+			repaint();
+		} else if (source == openFile){
+			String fileToOpen = null;
+			if (filechooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION ){
+				fileToOpen = filechooser.getSelectedFile().getAbsolutePath();
+				
+				write( fileToOpen, shape );
+			}
+		} else if (source == saveFile){
+			String fileToSave = null;
+			if (filechooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION ){
+				fileToSave = filechooser.getSelectedFile().getAbsolutePath();
+				
+				shape = read( fileToSave );
+			}
+		}
+	}
+
+	
+	private Shape read(String fileToOpen) {
+		
+		return null;
+	}
+
+	private void write(final String fileToOpen, final Shape sh) {
+		
+	}
+
+	/**
+	 * Paint method - this is where our shapes get drawn.
+	 */
+	public void paint(java.awt.Graphics graphics) {
+		super.paint(graphics);
+		/**
+		 * We want to draw the Rectangle.
+		 */
+		if (shape != null)
+			((DrawableRectangle)shape).draw(graphics);
+	}
+}

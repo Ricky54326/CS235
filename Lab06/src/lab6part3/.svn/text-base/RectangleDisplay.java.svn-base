@@ -1,0 +1,28 @@
+package lab6part3;
+
+/**
+ * Title: RectangleDisplay class for CSIS 235 Lab #6
+ * Description: CS 235 Lab #6 - RectangleDisplay 
+ * 				This class has a main method and is the client
+ * 				 of the RectangleViewer and Rectangle classes.
+ * 
+ * @author Nino & Hosch - this class is from the textbook.
+ * @email your.n.here@my.uwrf.edu
+ * @date October 10th 2012
+ */
+
+public class RectangleDisplay {
+
+	/**
+	 * main - This program starts execution here.
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Rectangle theModel;
+		RectangleViewer theUserInterface;
+		theModel = new Rectangle(100, 50);
+		theUserInterface = new RectangleViewer();
+		theUserInterface.displayRectangle(theModel);
+	}
+}
