@@ -1,0 +1,2 @@
+10/31/2012 11:56AM: Adding some JavaDoc comments.
+	We need to remove the Data Members from Circle and Square, as the instructions say we cannot add data members. Not sure how to go about doing this.
